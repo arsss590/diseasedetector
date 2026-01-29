@@ -13,15 +13,23 @@ import {
   AlertTriangle,
   Shield,
   ArrowRight,
-  Paperclip,
   X,
   Activity,
   Stethoscope,
-  Clock
+  Clock,
+  MapPin
 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { DisclaimerBanner } from "@/components/layout/DisclaimerBanner";
+import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
+
+interface AIReport {
+  riskLevel: "low" | "medium" | "high";
+  possibleConditions: string[];
+  recommendations: string[];
+  whenToSeeDoctor: string;
+}
 
 interface Message {
   id: string;
@@ -32,67 +40,12 @@ interface Message {
   report?: AIReport;
 }
 
-interface AIReport {
-  riskLevel: "low" | "medium" | "high";
-  possibleConditions: string[];
-  recommendations: string[];
-  whenToSeeDoctor: string;
-}
-
-const sampleResponses: { keywords: string[]; report: AIReport; response: string }[] = [
-  {
-    keywords: ["headache", "head", "pain"],
-    report: {
-      riskLevel: "low",
-      possibleConditions: ["Tension Headache", "Dehydration", "Eye Strain"],
-      recommendations: [
-        "Stay hydrated - drink plenty of water",
-        "Take regular breaks from screens",
-        "Rest in a quiet, dark room",
-        "Consider over-the-counter pain relief if needed"
-      ],
-      whenToSeeDoctor: "If headaches persist for more than a week, are severe, or accompanied by fever, vision changes, or confusion."
-    },
-    response: "Based on what you've described, this sounds like it could be a tension headache, which is quite common. Here's my assessment:"
-  },
-  {
-    keywords: ["fever", "temperature", "hot"],
-    report: {
-      riskLevel: "medium",
-      possibleConditions: ["Viral Infection", "Flu", "Common Cold"],
-      recommendations: [
-        "Rest and stay hydrated",
-        "Monitor your temperature regularly",
-        "Take fever-reducing medication if above 38.5°C",
-        "Avoid strenuous activity"
-      ],
-      whenToSeeDoctor: "If fever exceeds 39°C, lasts more than 3 days, or is accompanied by severe symptoms like difficulty breathing or chest pain."
-    },
-    response: "Fever is your body's natural response to fighting infection. Here's what I've assessed based on your symptoms:"
-  },
-  {
-    keywords: ["rash", "skin", "itchy", "bump"],
-    report: {
-      riskLevel: "medium",
-      possibleConditions: ["Allergic Reaction", "Contact Dermatitis", "Eczema"],
-      recommendations: [
-        "Avoid scratching the affected area",
-        "Apply a cool compress",
-        "Try an over-the-counter antihistamine",
-        "Use fragrance-free moisturizers"
-      ],
-      whenToSeeDoctor: "If the rash spreads rapidly, is accompanied by difficulty breathing, or doesn't improve within a few days."
-    },
-    response: "Skin conditions can have many causes. Based on your description, here's my assessment:"
-  }
-];
-
 export default function AIConsultant() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
       role: "assistant",
-      content: "Hello! I'm your AI health assistant. I'm here to help you understand your symptoms and provide general health information. You can type your symptoms, upload an image, or use voice input. How can I assist you today?",
+      content: "Hello! I'm your AI health assistant powered by advanced AI. I'm here to help you understand your symptoms and provide general health information. You can type your symptoms, upload an image, or use voice input. How can I assist you today?",
       timestamp: new Date(),
     }
   ]);
@@ -111,20 +64,6 @@ export default function AIConsultant() {
     scrollToBottom();
   }, [messages]);
 
-  const generateResponse = (userMessage: string): { response: string; report?: AIReport } => {
-    const lowerMessage = userMessage.toLowerCase();
-    
-    for (const sample of sampleResponses) {
-      if (sample.keywords.some(keyword => lowerMessage.includes(keyword))) {
-        return { response: sample.response, report: sample.report };
-      }
-    }
-
-    return {
-      response: "Thank you for sharing that information. While I can provide general health guidance, I'd need more specific details about your symptoms to give you a proper assessment. Could you describe:\n\n• What symptoms are you experiencing?\n• How long have you had them?\n• Are there any other related symptoms?\n\nRemember, this is for informational purposes only and doesn't replace professional medical advice.",
-    };
-  };
-
   const handleSend = async () => {
     if (!input.trim() && !selectedImage) return;
 
@@ -137,25 +76,59 @@ export default function AIConsultant() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input;
+    const currentImage = selectedImage;
     setInput("");
     setSelectedImage(null);
     setIsLoading(true);
 
-    // Simulate AI response delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      // Build message history for context
+      const messageHistory = messages
+        .filter((m) => m.id !== "welcome")
+        .map((m) => ({
+          role: m.role,
+          content: m.content,
+        }));
 
-    const { response, report } = generateResponse(input);
+      // Add current message
+      messageHistory.push({
+        role: "user",
+        content: currentInput,
+      });
 
-    const assistantMessage: Message = {
-      id: (Date.now() + 1).toString(),
-      role: "assistant",
-      content: response,
-      timestamp: new Date(),
-      report,
-    };
+      const { data, error } = await supabase.functions.invoke("medical-chat", {
+        body: {
+          messages: messageHistory,
+          image: currentImage,
+        },
+      });
 
-    setMessages((prev) => [...prev, assistantMessage]);
-    setIsLoading(false);
+      if (error) {
+        throw error;
+      }
+
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: data.response || data.error || "I apologize, but I couldn't process your request. Please try again.",
+        timestamp: new Date(),
+        report: data.report,
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error("Error calling AI:", error);
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: "I apologize, but I'm having trouble processing your request right now. Please try again in a moment.",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -171,8 +144,8 @@ export default function AIConsultant() {
 
   const toggleRecording = () => {
     setIsRecording(!isRecording);
-    // In a real implementation, this would use the Web Speech API
     if (!isRecording) {
+      // Simulate voice recording
       setTimeout(() => {
         setInput("I've been feeling tired and having headaches for the past few days.");
         setIsRecording(false);
@@ -204,7 +177,7 @@ export default function AIConsultant() {
                 </div>
                 <div>
                   <h1 className="font-display text-xl font-semibold">AI Health Consultant</h1>
-                  <p className="text-sm text-muted-foreground">Powered by advanced medical AI</p>
+                  <p className="text-sm text-muted-foreground">Powered by Gemini AI</p>
                 </div>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -309,6 +282,16 @@ export default function AIConsultant() {
                           </div>
                           <p className="text-xs text-muted-foreground">{message.report.whenToSeeDoctor}</p>
                         </div>
+
+                        {/* Find Care Button */}
+                        {message.report.riskLevel !== "low" && (
+                          <Link to="/map">
+                            <Button variant="outline" size="sm" className="w-full gap-2">
+                              <MapPin className="w-4 h-4" />
+                              Find Nearby Medical Facilities
+                            </Button>
+                          </Link>
+                        )}
                       </motion.div>
                     )}
                     

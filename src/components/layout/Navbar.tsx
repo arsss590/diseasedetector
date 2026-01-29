@@ -14,12 +14,15 @@ import {
   Activity
 } from "lucide-react";
 
+import { Heart as HeartPulse, Stethoscope } from "lucide-react";
+
 const navItems = [
   { name: "AI Consultant", path: "/consultant", icon: Bot },
+  { name: "Symptom Tracker", path: "/symptom-tracker", icon: Stethoscope },
   { name: "Medicine Cabinet", path: "/cabinet", icon: Pill },
+  { name: "First Aid", path: "/first-aid", icon: HeartPulse },
   { name: "Find Care", path: "/map", icon: Map },
-  { name: "Health Articles", path: "/articles", icon: BookOpen },
-  { name: "About", path: "/about", icon: Info },
+  { name: "Articles", path: "/articles", icon: BookOpen },
 ];
 
 export function Navbar() {
