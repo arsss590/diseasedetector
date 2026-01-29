@@ -24,14 +24,28 @@ const features = [
   {
     icon: Bot,
     title: "AI Medical Consultant",
-    description: "Chat with our AI assistant, upload medical images, or use voice input to get health insights.",
+    description: "Chat with our Gemini-powered AI assistant to get instant health insights and guidance.",
     link: "/consultant",
     color: "bg-primary/10 text-primary",
   },
   {
+    icon: Activity,
+    title: "Symptom Tracker",
+    description: "Log daily symptoms, track severity trends, and monitor your health over time.",
+    link: "/symptom-tracker",
+    color: "bg-secondary/10 text-secondary",
+  },
+  {
+    icon: Heart,
+    title: "First Aid Guide",
+    description: "Step-by-step emergency procedures for CPR, choking, burns, and more.",
+    link: "/first-aid",
+    color: "bg-destructive/10 text-destructive",
+  },
+  {
     icon: Pill,
     title: "Medicine Cabinet",
-    description: "Store and manage your medications with expiration tracking and symptom-based search.",
+    description: "Store and manage your medications with expiration tracking and alerts.",
     link: "/cabinet",
     color: "bg-accent/10 text-accent",
   },
@@ -40,7 +54,7 @@ const features = [
     title: "Find Nearby Care",
     description: "Locate pharmacies, hospitals, and clinics near you with detailed information.",
     link: "/map",
-    color: "bg-secondary/10 text-secondary",
+    color: "bg-medical-blue/10 text-medical-blue",
   },
   {
     icon: BookOpen,
@@ -247,7 +261,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (

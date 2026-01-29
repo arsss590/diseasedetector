@@ -8,6 +8,8 @@ import AIConsultant from "./pages/AIConsultant";
 import MedicineCabinet from "./pages/MedicineCabinet";
 import MapPage from "./pages/MapPage";
 import HealthArticles from "./pages/HealthArticles";
+import FirstAidGuide from "./pages/FirstAidGuide";
+import SymptomTracker from "./pages/SymptomTracker";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 
@@ -25,6 +27,8 @@ const App = () => (
           <Route path="/cabinet" element={<MedicineCabinet />} />
           <Route path="/map" element={<MapPage />} />
           <Route path="/articles" element={<HealthArticles />} />
+          <Route path="/first-aid" element={<FirstAidGuide />} />
+          <Route path="/symptom-tracker" element={<SymptomTracker />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
