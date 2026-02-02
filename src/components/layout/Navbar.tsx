@@ -14,10 +14,14 @@ import {
   Activity,
   User,
   LogOut,
+  Users,
+  Stethoscope,
+  Shield,
 } from "lucide-react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUserRoles } from "@/hooks/useUserRoles";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,6 +36,7 @@ export function Navbar() {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const { user, signOut } = useAuth();
+  const { isDoctor, isAdmin } = useUserRoles();
 
   const navItems = [
     { href: "/consultant", label: t.aiConsultant, icon: MessageSquare },
@@ -39,8 +44,21 @@ export function Navbar() {
     { href: "/map", label: t.map, icon: MapPin },
     { href: "/first-aid", label: t.firstAid, icon: Cross },
     { href: "/symptom-tracker", label: t.symptomTracker, icon: Activity },
+    { href: "/forum", label: t.forum, icon: Users },
     { href: "/articles", label: t.articles, icon: FileText },
   ];
+
+  // Add doctor workplace if user is a doctor
+  const doctorItems = isDoctor() ? [
+    { href: "/doctor-workplace", label: t.doctorWorkplace, icon: Stethoscope },
+  ] : [];
+
+  // Add admin panel if user is an admin
+  const adminItems = isAdmin() ? [
+    { href: "/admin", label: t.adminPanel, icon: Shield },
+  ] : [];
+
+  const allNavItems = [...navItems, ...doctorItems, ...adminItems];
 
   const handleSignOut = async () => {
     await signOut();
@@ -63,7 +81,7 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1">
-            {navItems.map((item) => {
+            {allNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.href;
               return (
@@ -102,6 +120,19 @@ export function Navbar() {
                     <span className="text-xs text-muted-foreground">{user.email}</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
+                  {isDoctor() && (
+                    <DropdownMenuItem onClick={() => navigate('/doctor-workplace')}>
+                      <Stethoscope className="w-4 h-4 mr-2" />
+                      {t.doctorWorkplace}
+                    </DropdownMenuItem>
+                  )}
+                  {isAdmin() && (
+                    <DropdownMenuItem onClick={() => navigate('/admin')}>
+                      <Shield className="w-4 h-4 mr-2" />
+                      {t.adminPanel}
+                    </DropdownMenuItem>
+                  )}
+                  {(isDoctor() || isAdmin()) && <DropdownMenuSeparator />}
                   <DropdownMenuItem onClick={handleSignOut} className="text-destructive">
                     <LogOut className="w-4 h-4 mr-2" />
                     {t.signOut}
@@ -138,7 +169,7 @@ export function Navbar() {
               className="lg:hidden overflow-hidden"
             >
               <div className="py-4 space-y-1">
-                {navItems.map((item) => {
+                {allNavItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = location.pathname === item.href;
                   return (
