@@ -14,6 +14,96 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_logs: {
+        Row: {
+          action: string
+          admin_id: string
+          created_at: string
+          details: Json | null
+          id: string
+          target_id: string | null
+          target_type: string | null
+        }
+        Insert: {
+          action: string
+          admin_id: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Update: {
+          action?: string
+          admin_id?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Relationships: []
+      }
+      anonymized_analytics: {
+        Row: {
+          category: string | null
+          count: number | null
+          created_at: string
+          event_type: string
+          id: string
+          region: string | null
+          rounded_timestamp: string
+        }
+        Insert: {
+          category?: string | null
+          count?: number | null
+          created_at?: string
+          event_type: string
+          id?: string
+          region?: string | null
+          rounded_timestamp: string
+        }
+        Update: {
+          category?: string | null
+          count?: number | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          region?: string | null
+          rounded_timestamp?: string
+        }
+        Relationships: []
+      }
+      case_collections: {
+        Row: {
+          case_ids: string[] | null
+          created_at: string
+          description: string | null
+          doctor_id: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          case_ids?: string[] | null
+          created_at?: string
+          description?: string | null
+          doctor_id: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          case_ids?: string[] | null
+          created_at?: string
+          description?: string | null
+          doctor_id?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       chat_messages: {
         Row: {
           content: string
@@ -65,6 +155,200 @@ export type Database = {
         }
         Relationships: []
       }
+      clinical_cases: {
+        Row: {
+          age_range: string
+          created_at: string
+          diagnostic_markers: string[] | null
+          doctor_id: string
+          duration: string | null
+          id: string
+          insights: string | null
+          is_private: boolean | null
+          symptoms: string[]
+          tags: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          age_range: string
+          created_at?: string
+          diagnostic_markers?: string[] | null
+          doctor_id: string
+          duration?: string | null
+          id?: string
+          insights?: string | null
+          is_private?: boolean | null
+          symptoms?: string[]
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          age_range?: string
+          created_at?: string
+          diagnostic_markers?: string[] | null
+          doctor_id?: string
+          duration?: string | null
+          id?: string
+          insights?: string | null
+          is_private?: boolean | null
+          symptoms?: string[]
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      forum_posts: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_urgent: boolean | null
+          status: string | null
+          tags: string[] | null
+          title: string
+          updated_at: string
+          user_id: string
+          views_count: number | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          is_urgent?: boolean | null
+          status?: string | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          user_id: string
+          views_count?: number | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_urgent?: boolean | null
+          status?: string | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+          views_count?: number | null
+        }
+        Relationships: []
+      }
+      forum_replies: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_ai_moderated: boolean | null
+          is_anonymous: boolean | null
+          is_doctor_reply: boolean | null
+          moderation_flags: string[] | null
+          post_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          is_ai_moderated?: boolean | null
+          is_anonymous?: boolean | null
+          is_doctor_reply?: boolean | null
+          moderation_flags?: string[] | null
+          post_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_ai_moderated?: boolean | null
+          is_anonymous?: boolean | null
+          is_doctor_reply?: boolean | null
+          moderation_flags?: string[] | null
+          post_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_replies_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "forum_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      health_articles: {
+        Row: {
+          author_id: string | null
+          category: string | null
+          content_en: string
+          content_kk: string | null
+          content_ru: string | null
+          created_at: string
+          id: string
+          is_ai_generated: boolean | null
+          is_published: boolean | null
+          needs_review: boolean | null
+          summary_en: string | null
+          summary_kk: string | null
+          summary_ru: string | null
+          tags: string[] | null
+          title_en: string
+          title_kk: string | null
+          title_ru: string | null
+          updated_at: string
+          views_count: number | null
+        }
+        Insert: {
+          author_id?: string | null
+          category?: string | null
+          content_en: string
+          content_kk?: string | null
+          content_ru?: string | null
+          created_at?: string
+          id?: string
+          is_ai_generated?: boolean | null
+          is_published?: boolean | null
+          needs_review?: boolean | null
+          summary_en?: string | null
+          summary_kk?: string | null
+          summary_ru?: string | null
+          tags?: string[] | null
+          title_en: string
+          title_kk?: string | null
+          title_ru?: string | null
+          updated_at?: string
+          views_count?: number | null
+        }
+        Update: {
+          author_id?: string | null
+          category?: string | null
+          content_en?: string
+          content_kk?: string | null
+          content_ru?: string | null
+          created_at?: string
+          id?: string
+          is_ai_generated?: boolean | null
+          is_published?: boolean | null
+          needs_review?: boolean | null
+          summary_en?: string | null
+          summary_kk?: string | null
+          summary_ru?: string | null
+          tags?: string[] | null
+          title_en?: string
+          title_kk?: string | null
+          title_ru?: string | null
+          updated_at?: string
+          views_count?: number | null
+        }
+        Relationships: []
+      }
       medicines: {
         Row: {
           created_at: string
@@ -105,6 +389,30 @@ export type Database = {
           purpose?: string | null
           quantity?: number | null
           tags?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      privacy_settings: {
+        Row: {
+          analytics_opt_in: boolean | null
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          analytics_opt_in?: boolean | null
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          analytics_opt_in?: boolean | null
+          created_at?: string
+          id?: string
           updated_at?: string
           user_id?: string
         }
@@ -176,15 +484,49 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+          verified_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+          verified_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_roles: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_role"][]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "user" | "doctor" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -311,6 +653,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["user", "doctor", "admin"],
+    },
   },
 } as const
