@@ -19,60 +19,63 @@ import {
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { DisclaimerBanner } from "@/components/layout/DisclaimerBanner";
-
-const features = [
-  {
-    icon: Bot,
-    title: "AI Medical Consultant",
-    description: "Chat with our Gemini-powered AI assistant to get instant health insights and guidance.",
-    link: "/consultant",
-    color: "bg-primary/10 text-primary",
-  },
-  {
-    icon: Activity,
-    title: "Symptom Tracker",
-    description: "Log daily symptoms, track severity trends, and monitor your health over time.",
-    link: "/symptom-tracker",
-    color: "bg-secondary/10 text-secondary",
-  },
-  {
-    icon: Heart,
-    title: "First Aid Guide",
-    description: "Step-by-step emergency procedures for CPR, choking, burns, and more.",
-    link: "/first-aid",
-    color: "bg-destructive/10 text-destructive",
-  },
-  {
-    icon: Pill,
-    title: "Medicine Cabinet",
-    description: "Store and manage your medications with expiration tracking and alerts.",
-    link: "/cabinet",
-    color: "bg-accent/10 text-accent",
-  },
-  {
-    icon: Map,
-    title: "Find Nearby Care",
-    description: "Locate pharmacies, hospitals, and clinics near you with detailed information.",
-    link: "/map",
-    color: "bg-medical-blue/10 text-medical-blue",
-  },
-  {
-    icon: BookOpen,
-    title: "Health Education",
-    description: "Access trusted health articles in Russian and Kazakh with expert insights.",
-    link: "/articles",
-    color: "bg-medical-pulse/10 text-medical-pulse",
-  },
-];
-
-const stats = [
-  { value: "24/7", label: "AI Available" },
-  { value: "99+", label: "Languages" },
-  { value: "Safe", label: "& Private" },
-  { value: "Free", label: "To Use" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
+  const { t } = useLanguage();
+
+  const features = [
+    {
+      icon: Bot,
+      title: t.featureAiTitle,
+      description: t.featureAiDesc,
+      link: "/consultant",
+      color: "bg-primary/10 text-primary",
+    },
+    {
+      icon: Activity,
+      title: t.featureSymptomTitle,
+      description: t.featureSymptomDesc,
+      link: "/symptom-tracker",
+      color: "bg-secondary/10 text-secondary",
+    },
+    {
+      icon: Heart,
+      title: t.featureFirstAidTitle,
+      description: t.featureFirstAidDesc,
+      link: "/first-aid",
+      color: "bg-destructive/10 text-destructive",
+    },
+    {
+      icon: Pill,
+      title: t.featureMedicineTitle,
+      description: t.featureMedicineDesc,
+      link: "/cabinet",
+      color: "bg-accent/10 text-accent",
+    },
+    {
+      icon: Map,
+      title: t.featureMapTitle,
+      description: t.featureMapDesc,
+      link: "/map",
+      color: "bg-medical-blue/10 text-medical-blue",
+    },
+    {
+      icon: BookOpen,
+      title: t.featureEducationTitle,
+      description: t.featureEducationDesc,
+      link: "/articles",
+      color: "bg-medical-pulse/10 text-medical-pulse",
+    },
+  ];
+
+  const stats = [
+    { value: "24/7", label: t.aiAvailable },
+    { value: "3+", label: t.languages },
+    { value: "✓", label: t.safePrivate },
+    { value: "✓", label: t.freeToUse },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -95,7 +98,7 @@ export default function Home() {
               className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full px-4 py-2 mb-6"
             >
               <Sparkles className="w-4 h-4" />
-              <span className="text-sm font-medium">AI-Powered Health Assistant</span>
+              <span className="text-sm font-medium">{t.heroTagline}</span>
             </motion.div>
 
             <motion.h1
@@ -104,9 +107,9 @@ export default function Home() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
             >
-              Your Personal
+              {t.heroTitle1}
               <br />
-              <span className="text-gradient">Health Companion</span>
+              <span className="text-gradient">{t.heroTitle2}</span>
             </motion.h1>
 
             <motion.p
@@ -115,8 +118,7 @@ export default function Home() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto"
             >
-              Get instant health insights, manage your medications, and find nearby care—
-              all powered by advanced AI technology designed with your safety in mind.
+              {t.heroDescription}
             </motion.p>
 
             <motion.div
@@ -128,14 +130,14 @@ export default function Home() {
               <Link to="/consultant">
                 <Button size="lg" className="medical-gradient shadow-medical hover:shadow-glow transition-all duration-300 gap-2 text-base px-8">
                   <Bot className="w-5 h-5" />
-                  Start Consultation
+                  {t.startConsultation}
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
               <Link to="/articles">
                 <Button size="lg" variant="outline" className="gap-2 text-base px-8">
                   <BookOpen className="w-5 h-5" />
-                  Explore Articles
+                  {t.exploreArticles}
                 </Button>
               </Link>
             </motion.div>
@@ -179,12 +181,12 @@ export default function Home() {
                       <Bot className="w-4 h-4 text-primary" />
                     </div>
                     <div className="bg-muted rounded-lg rounded-tl-none p-3 max-w-xs">
-                      <p className="text-sm">Hello! I'm your AI health assistant. How can I help you today?</p>
+                      <p className="text-sm">{t.aiGreeting}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 justify-end">
                     <div className="bg-primary text-primary-foreground rounded-lg rounded-tr-none p-3 max-w-xs">
-                      <p className="text-sm">I've been having headaches for the past few days...</p>
+                      <p className="text-sm">{t.userHeadacheExample}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -192,7 +194,7 @@ export default function Home() {
                       <Bot className="w-4 h-4 text-primary" />
                     </div>
                     <div className="bg-muted rounded-lg rounded-tl-none p-3 max-w-sm">
-                      <p className="text-sm">I understand. Let me ask you a few questions to better understand your symptoms...</p>
+                      <p className="text-sm">{t.aiFollowUp}</p>
                     </div>
                   </div>
                 </div>
@@ -201,19 +203,19 @@ export default function Home() {
                   <div className="bg-success/10 border border-success/20 rounded-lg p-3">
                     <div className="flex items-center gap-2 mb-2">
                       <Shield className="w-4 h-4 text-success" />
-                      <span className="text-xs font-medium text-success">Risk Level: Low</span>
+                      <span className="text-xs font-medium text-success">{t.riskLevel}: {t.lowRisk}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground">Initial assessment suggests minor concern.</p>
+                    <p className="text-xs text-muted-foreground">{t.initialAssessment}</p>
                   </div>
                   <div className="bg-muted rounded-lg p-3">
                     <div className="flex items-center gap-2 mb-2">
                       <Stethoscope className="w-4 h-4 text-primary" />
-                      <span className="text-xs font-medium">Suggested Actions</span>
+                      <span className="text-xs font-medium">{t.suggestedActions}</span>
                     </div>
                     <ul className="text-xs text-muted-foreground space-y-1">
-                      <li>• Stay hydrated</li>
-                      <li>• Rest in quiet environment</li>
-                      <li>• Monitor symptoms</li>
+                      <li>• {t.stayHydrated}</li>
+                      <li>• {t.restQuiet}</li>
+                      <li>• {t.monitorSymptoms}</li>
                     </ul>
                   </div>
                 </div>
@@ -251,13 +253,12 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Everything You Need for
+              {t.whyChooseTitle1}
               <br />
-              <span className="text-gradient">Better Health Management</span>
+              <span className="text-gradient">{t.whyChooseTitle2}</span>
             </h2>
             <p className="text-muted-foreground">
-              Comprehensive tools designed to help you understand your health, manage medications, 
-              and connect with healthcare providers.
+              {t.whyChooseDesc}
             </p>
           </div>
 
@@ -280,7 +281,7 @@ export default function Home() {
                       <h3 className="font-display text-xl font-semibold mb-2">{feature.title}</h3>
                       <p className="text-muted-foreground text-sm mb-4">{feature.description}</p>
                       <div className="flex items-center gap-2 text-primary text-sm font-medium group-hover:gap-3 transition-all duration-300">
-                        Learn more
+                        {t.learnMore}
                         <ArrowRight className="w-4 h-4" />
                       </div>
                     </div>
@@ -298,20 +299,19 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
-                Built with Your
+                {t.whyChooseTitle1}
                 <br />
-                <span className="text-gradient">Safety in Mind</span>
+                <span className="text-gradient">{t.whyChooseTitle2}</span>
               </h2>
               <p className="text-muted-foreground mb-8">
-                We understand that health information is sensitive. That's why we've designed 
-                Disease Detector with safety, privacy, and accuracy as our top priorities.
+                {t.whyChooseDesc}
               </p>
               
               <div className="space-y-4">
                 {[
-                  { icon: Shield, title: "Privacy First", desc: "Your health data stays on your device" },
-                  { icon: Zap, title: "Instant Insights", desc: "Get AI-powered responses in seconds" },
-                  { icon: Users, title: "Expert-Reviewed", desc: "Content reviewed by medical professionals" },
+                  { icon: Shield, title: t.privacyFirst, desc: t.privacyFirstDesc },
+                  { icon: Zap, title: t.instantInsights, desc: t.instantInsightsDesc },
+                  { icon: Users, title: t.expertReviewed, desc: t.expertReviewedDesc },
                 ].map((item, index) => {
                   const Icon = item.icon;
                   return (
@@ -349,24 +349,24 @@ export default function Home() {
                     <Activity className="w-6 h-6 text-primary-foreground" />
                   </div>
                   <div>
-                    <h4 className="font-display font-semibold">Health Report</h4>
-                    <p className="text-sm text-muted-foreground">Generated by AI</p>
+                    <h4 className="font-display font-semibold">{t.healthReport}</h4>
+                    <p className="text-sm text-muted-foreground">{t.generatedByAi}</p>
                   </div>
                 </div>
                 
                 <div className="space-y-4">
                   <div className="p-4 bg-success/10 border border-success/20 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium">Risk Assessment</span>
-                      <span className="text-xs bg-success/20 text-success px-2 py-1 rounded-full">Low Risk</span>
+                      <span className="text-sm font-medium">{t.riskAssessment}</span>
+                      <span className="text-xs bg-success/20 text-success px-2 py-1 rounded-full">{t.lowRisk}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground">Based on your symptoms, the risk level appears low.</p>
+                    <p className="text-xs text-muted-foreground">{t.initialAssessment}</p>
                   </div>
                   
                   <div className="p-4 bg-muted rounded-lg">
-                    <span className="text-sm font-medium mb-2 block">Possible Conditions</span>
+                    <span className="text-sm font-medium mb-2 block">{t.possibleConditions}</span>
                     <div className="flex flex-wrap gap-2">
-                      {["Tension Headache", "Dehydration", "Eye Strain"].map((tag) => (
+                      {[t.tensionHeadache, t.dehydration, t.eyeStrain].map((tag) => (
                         <span key={tag} className="text-xs bg-background px-2 py-1 rounded-full border border-border">
                           {tag}
                         </span>
@@ -375,11 +375,11 @@ export default function Home() {
                   </div>
                   
                   <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
-                    <span className="text-sm font-medium mb-2 block">Recommended Actions</span>
+                    <span className="text-sm font-medium mb-2 block">{t.recommendedActions}</span>
                     <ul className="text-xs text-muted-foreground space-y-1">
-                      <li>✓ Stay hydrated - drink 8 glasses of water</li>
-                      <li>✓ Take regular breaks from screens</li>
-                      <li>✓ Consider over-the-counter pain relief</li>
+                      <li>✓ {t.drinkWater}</li>
+                      <li>✓ {t.takeBreaks}</li>
+                      <li>✓ {t.considerPainRelief}</li>
                     </ul>
                   </div>
                 </div>
@@ -398,24 +398,28 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-3xl mx-auto text-center bg-card rounded-3xl p-8 md:p-12 shadow-xl border border-border relative overflow-hidden"
+            transition={{ duration: 0.5 }}
+            className="relative max-w-4xl mx-auto text-center"
           >
-            <div className="absolute inset-0 medical-gradient opacity-5" />
-            <div className="relative">
-              <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-                Ready to Take Control of Your Health?
-              </h2>
-              <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-                Start your health journey today with our AI-powered assistant. 
-                Get instant insights, manage medications, and find care near you.
-              </p>
-              <Link to="/consultant">
-                <Button size="lg" className="medical-gradient shadow-medical hover:shadow-glow transition-all duration-300 gap-2 text-base px-8">
-                  <Bot className="w-5 h-5" />
-                  Start Free Consultation
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-              </Link>
+            <div className="relative bg-card rounded-3xl p-8 md:p-16 border border-border overflow-hidden">
+              {/* Background decorations */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl" />
+              
+              <div className="relative">
+                <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
+                  {t.ctaTitle}
+                </h2>
+                <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
+                  {t.ctaDesc}
+                </p>
+                <Link to="/auth">
+                  <Button size="lg" className="medical-gradient shadow-medical hover:shadow-glow transition-all duration-300 gap-2 text-base px-8">
+                    {t.getStartedFree}
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+              </div>
             </div>
           </motion.div>
         </div>

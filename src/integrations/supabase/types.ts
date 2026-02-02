@@ -197,6 +197,66 @@ export type Database = {
         }
         Relationships: []
       }
+      doctor_applications: {
+        Row: {
+          bio: string | null
+          country: string
+          created_at: string
+          full_name: string
+          id: string
+          license_document_url: string | null
+          license_number: string | null
+          region: string | null
+          rejection_reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          specialization: string
+          status: string
+          updated_at: string
+          user_id: string
+          workplace: string | null
+          years_of_experience: number | null
+        }
+        Insert: {
+          bio?: string | null
+          country: string
+          created_at?: string
+          full_name: string
+          id?: string
+          license_document_url?: string | null
+          license_number?: string | null
+          region?: string | null
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          specialization: string
+          status?: string
+          updated_at?: string
+          user_id: string
+          workplace?: string | null
+          years_of_experience?: number | null
+        }
+        Update: {
+          bio?: string | null
+          country?: string
+          created_at?: string
+          full_name?: string
+          id?: string
+          license_document_url?: string | null
+          license_number?: string | null
+          region?: string | null
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          specialization?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+          workplace?: string | null
+          years_of_experience?: number | null
+        }
+        Relationships: []
+      }
       forum_posts: {
         Row: {
           content: string
