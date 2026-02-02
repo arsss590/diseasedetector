@@ -1,5 +1,15 @@
 export type Language = 'en' | 'ru' | 'kk';
 
+export const languageNames: Record<Language, string> = {
+  en: 'English',
+  ru: 'Русский',
+  kk: 'Қазақша',
+};
+
+export function getTranslation(language: Language): Translations {
+  return translations[language];
+}
+
 export interface Translations {
   // Navigation
   home: string;
@@ -37,6 +47,8 @@ export interface Translations {
   confirm: string;
   required: string;
   optional: string;
+  or: string;
+  learnMore: string;
   
   // Auth
   email: string;
@@ -49,6 +61,46 @@ export interface Translations {
   forgotPassword: string;
   welcomeBack: string;
   createYourAccount: string;
+  
+  // Role Selection (Registration)
+  selectAccountType: string;
+  registerAsUser: string;
+  registerAsDoctor: string;
+  userAccountDesc: string;
+  doctorAccountDesc: string;
+  doctorVerificationRequired: string;
+  
+  // Doctor Application
+  doctorApplication: string;
+  fullName: string;
+  specialization: string;
+  licenseNumber: string;
+  uploadLicense: string;
+  professionalBio: string;
+  country: string;
+  region: string;
+  yearsOfExperience: string;
+  workplace: string;
+  applicationPending: string;
+  applicationApproved: string;
+  applicationRejected: string;
+  applicationSubmitted: string;
+  pendingVerification: string;
+  verificationPendingDesc: string;
+  
+  // Specializations
+  generalPractitioner: string;
+  cardiologist: string;
+  dermatologist: string;
+  pediatrician: string;
+  neurologist: string;
+  psychiatrist: string;
+  surgeon: string;
+  gynecologist: string;
+  urologist: string;
+  endocrinologist: string;
+  ophthalmologist: string;
+  otherSpecialty: string;
   
   // Roles
   user: string;
@@ -197,6 +249,9 @@ export interface Translations {
   aggregatedData: string;
   regionBreakdown: string;
   trendingTopics: string;
+  doctorApplications: string;
+  approveDoctor: string;
+  rejectDoctor: string;
   
   // Privacy
   privacySettings: string;
@@ -225,6 +280,74 @@ export interface Translations {
   unauthorized: string;
   notFound: string;
   serverError: string;
+  
+  // Home Page
+  heroTagline: string;
+  heroTitle1: string;
+  heroTitle2: string;
+  heroDescription: string;
+  startConsultation: string;
+  exploreArticles: string;
+  aiAvailable: string;
+  languages: string;
+  safePrivate: string;
+  freeToUse: string;
+  
+  // Features
+  featureAiTitle: string;
+  featureAiDesc: string;
+  featureSymptomTitle: string;
+  featureSymptomDesc: string;
+  featureFirstAidTitle: string;
+  featureFirstAidDesc: string;
+  featureMedicineTitle: string;
+  featureMedicineDesc: string;
+  featureMapTitle: string;
+  featureMapDesc: string;
+  featureEducationTitle: string;
+  featureEducationDesc: string;
+  
+  // Why Choose Us
+  whyChooseTitle1: string;
+  whyChooseTitle2: string;
+  whyChooseDesc: string;
+  privacyFirst: string;
+  privacyFirstDesc: string;
+  instantInsights: string;
+  instantInsightsDesc: string;
+  expertReviewed: string;
+  expertReviewedDesc: string;
+  
+  // CTA
+  ctaTitle: string;
+  ctaDesc: string;
+  getStartedFree: string;
+  
+  // Chat messages
+  aiGreeting: string;
+  userHeadacheExample: string;
+  aiFollowUp: string;
+  riskAssessment: string;
+  suggestedActions: string;
+  stayHydrated: string;
+  restQuiet: string;
+  monitorSymptoms: string;
+  
+  // Health Report
+  healthReport: string;
+  generatedByAi: string;
+  initialAssessment: string;
+  tensionHeadache: string;
+  dehydration: string;
+  eyeStrain: string;
+  recommendedActions: string;
+  drinkWater: string;
+  takeBreaks: string;
+  considerPainRelief: string;
+  
+  // Email verification
+  checkEmailVerification: string;
+  emailVerificationSent: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -265,6 +388,8 @@ export const translations: Record<Language, Translations> = {
     confirm: 'Confirm',
     required: 'Required',
     optional: 'Optional',
+    or: 'or',
+    learnMore: 'Learn more',
     
     // Auth
     email: 'Email',
@@ -277,6 +402,46 @@ export const translations: Record<Language, Translations> = {
     forgotPassword: 'Forgot password?',
     welcomeBack: 'Welcome back',
     createYourAccount: 'Create your account',
+    
+    // Role Selection
+    selectAccountType: 'Select Account Type',
+    registerAsUser: 'Register as User',
+    registerAsDoctor: 'Apply as Doctor',
+    userAccountDesc: 'Access AI triage, medicine cabinet, health journal, map, and forum',
+    doctorAccountDesc: 'Publish articles, answer forum questions, access clinical workplace',
+    doctorVerificationRequired: 'Doctor verification required',
+    
+    // Doctor Application
+    doctorApplication: 'Doctor Application',
+    fullName: 'Full Name',
+    specialization: 'Medical Specialization',
+    licenseNumber: 'License / Qualification Number',
+    uploadLicense: 'Upload License Document',
+    professionalBio: 'Professional Bio',
+    country: 'Country',
+    region: 'Region / City',
+    yearsOfExperience: 'Years of Experience',
+    workplace: 'Current Workplace',
+    applicationPending: 'Application Pending',
+    applicationApproved: 'Application Approved',
+    applicationRejected: 'Application Rejected',
+    applicationSubmitted: 'Application Submitted Successfully',
+    pendingVerification: 'Pending Verification',
+    verificationPendingDesc: 'Your doctor application is under review. You will be notified once approved.',
+    
+    // Specializations
+    generalPractitioner: 'General Practitioner',
+    cardiologist: 'Cardiologist',
+    dermatologist: 'Dermatologist',
+    pediatrician: 'Pediatrician',
+    neurologist: 'Neurologist',
+    psychiatrist: 'Psychiatrist',
+    surgeon: 'Surgeon',
+    gynecologist: 'Gynecologist',
+    urologist: 'Urologist',
+    endocrinologist: 'Endocrinologist',
+    ophthalmologist: 'Ophthalmologist',
+    otherSpecialty: 'Other Specialty',
     
     // Roles
     user: 'User',
@@ -425,6 +590,9 @@ export const translations: Record<Language, Translations> = {
     aggregatedData: 'Aggregated Data',
     regionBreakdown: 'Region Breakdown',
     trendingTopics: 'Trending Topics',
+    doctorApplications: 'Doctor Applications',
+    approveDoctor: 'Approve Doctor',
+    rejectDoctor: 'Reject Doctor',
     
     // Privacy
     privacySettings: 'Privacy Settings',
@@ -453,6 +621,74 @@ export const translations: Record<Language, Translations> = {
     unauthorized: 'You are not authorized to perform this action.',
     notFound: 'Resource not found',
     serverError: 'Server error. Please try again later.',
+    
+    // Home Page
+    heroTagline: 'AI-Powered Health Assistant',
+    heroTitle1: 'Your Personal',
+    heroTitle2: 'Health Companion',
+    heroDescription: 'Get instant health insights, manage your medications, and find nearby care—all powered by advanced AI technology designed with your safety in mind.',
+    startConsultation: 'Start Consultation',
+    exploreArticles: 'Explore Articles',
+    aiAvailable: 'AI Available',
+    languages: 'Languages',
+    safePrivate: 'Safe & Private',
+    freeToUse: 'Free To Use',
+    
+    // Features
+    featureAiTitle: 'AI Medical Consultant',
+    featureAiDesc: 'Chat with our Gemini-powered AI assistant to get instant health insights and guidance.',
+    featureSymptomTitle: 'Symptom Tracker',
+    featureSymptomDesc: 'Log daily symptoms, track severity trends, and monitor your health over time.',
+    featureFirstAidTitle: 'First Aid Guide',
+    featureFirstAidDesc: 'Step-by-step emergency procedures for CPR, choking, burns, and more.',
+    featureMedicineTitle: 'Medicine Cabinet',
+    featureMedicineDesc: 'Store and manage your medications with expiration tracking and alerts.',
+    featureMapTitle: 'Find Nearby Care',
+    featureMapDesc: 'Locate pharmacies, hospitals, and clinics near you with detailed information.',
+    featureEducationTitle: 'Health Education',
+    featureEducationDesc: 'Access trusted health articles in Russian and Kazakh with expert insights.',
+    
+    // Why Choose Us
+    whyChooseTitle1: 'Built with Your',
+    whyChooseTitle2: 'Safety in Mind',
+    whyChooseDesc: 'We understand that health information is sensitive. That\'s why we\'ve designed Disease Detector with safety, privacy, and accuracy as our top priorities.',
+    privacyFirst: 'Privacy First',
+    privacyFirstDesc: 'Your health data stays on your device',
+    instantInsights: 'Instant Insights',
+    instantInsightsDesc: 'Get AI-powered responses in seconds',
+    expertReviewed: 'Expert-Reviewed',
+    expertReviewedDesc: 'Content reviewed by medical professionals',
+    
+    // CTA
+    ctaTitle: 'Ready to Take Control of Your Health?',
+    ctaDesc: 'Join thousands of users who trust Disease Detector for their health information needs. It\'s free, private, and always available.',
+    getStartedFree: 'Get Started Free',
+    
+    // Chat messages
+    aiGreeting: 'Hello! I\'m your AI health assistant. How can I help you today?',
+    userHeadacheExample: 'I\'ve been having headaches for the past few days...',
+    aiFollowUp: 'I understand. Let me ask you a few questions to better understand your symptoms...',
+    riskAssessment: 'Risk Assessment',
+    suggestedActions: 'Suggested Actions',
+    stayHydrated: 'Stay hydrated',
+    restQuiet: 'Rest in quiet environment',
+    monitorSymptoms: 'Monitor symptoms',
+    
+    // Health Report
+    healthReport: 'Health Report',
+    generatedByAi: 'Generated by AI',
+    initialAssessment: 'Based on your symptoms, the risk level appears low.',
+    tensionHeadache: 'Tension Headache',
+    dehydration: 'Dehydration',
+    eyeStrain: 'Eye Strain',
+    recommendedActions: 'Recommended Actions',
+    drinkWater: 'Stay hydrated - drink 8 glasses of water',
+    takeBreaks: 'Take regular breaks from screens',
+    considerPainRelief: 'Consider over-the-counter pain relief',
+    
+    // Email verification
+    checkEmailVerification: 'Please check your email to verify your account.',
+    emailVerificationSent: 'Verification email sent',
   },
   
   ru: {
@@ -492,6 +728,8 @@ export const translations: Record<Language, Translations> = {
     confirm: 'Подтвердить',
     required: 'Обязательно',
     optional: 'Необязательно',
+    or: 'или',
+    learnMore: 'Подробнее',
     
     // Auth
     email: 'Электронная почта',
@@ -504,6 +742,46 @@ export const translations: Record<Language, Translations> = {
     forgotPassword: 'Забыли пароль?',
     welcomeBack: 'С возвращением',
     createYourAccount: 'Создайте свой аккаунт',
+    
+    // Role Selection
+    selectAccountType: 'Выберите тип аккаунта',
+    registerAsUser: 'Зарегистрироваться как пользователь',
+    registerAsDoctor: 'Подать заявку как врач',
+    userAccountDesc: 'Доступ к ИИ-триажу, аптечке, дневнику здоровья, карте и форуму',
+    doctorAccountDesc: 'Публикация статей, ответы на форуме, клинический кабинет',
+    doctorVerificationRequired: 'Требуется верификация врача',
+    
+    // Doctor Application
+    doctorApplication: 'Заявка врача',
+    fullName: 'Полное имя',
+    specialization: 'Медицинская специализация',
+    licenseNumber: 'Номер лицензии / квалификации',
+    uploadLicense: 'Загрузить документ лицензии',
+    professionalBio: 'Профессиональная биография',
+    country: 'Страна',
+    region: 'Регион / Город',
+    yearsOfExperience: 'Лет опыта',
+    workplace: 'Текущее место работы',
+    applicationPending: 'Заявка на рассмотрении',
+    applicationApproved: 'Заявка одобрена',
+    applicationRejected: 'Заявка отклонена',
+    applicationSubmitted: 'Заявка успешно отправлена',
+    pendingVerification: 'Ожидание проверки',
+    verificationPendingDesc: 'Ваша заявка врача на рассмотрении. Вы получите уведомление после одобрения.',
+    
+    // Specializations
+    generalPractitioner: 'Терапевт',
+    cardiologist: 'Кардиолог',
+    dermatologist: 'Дерматолог',
+    pediatrician: 'Педиатр',
+    neurologist: 'Невролог',
+    psychiatrist: 'Психиатр',
+    surgeon: 'Хирург',
+    gynecologist: 'Гинеколог',
+    urologist: 'Уролог',
+    endocrinologist: 'Эндокринолог',
+    ophthalmologist: 'Офтальмолог',
+    otherSpecialty: 'Другая специальность',
     
     // Roles
     user: 'Пользователь',
@@ -652,6 +930,9 @@ export const translations: Record<Language, Translations> = {
     aggregatedData: 'Агрегированные данные',
     regionBreakdown: 'Разбивка по регионам',
     trendingTopics: 'Трендовые темы',
+    doctorApplications: 'Заявки врачей',
+    approveDoctor: 'Одобрить врача',
+    rejectDoctor: 'Отклонить врача',
     
     // Privacy
     privacySettings: 'Настройки конфиденциальности',
@@ -680,6 +961,74 @@ export const translations: Record<Language, Translations> = {
     unauthorized: 'У вас нет прав для выполнения этого действия.',
     notFound: 'Ресурс не найден',
     serverError: 'Ошибка сервера. Попробуйте позже.',
+    
+    // Home Page
+    heroTagline: 'Медицинский помощник на основе ИИ',
+    heroTitle1: 'Ваш Персональный',
+    heroTitle2: 'Помощник Здоровья',
+    heroDescription: 'Получайте мгновенные медицинские консультации, управляйте лекарствами и находите ближайшую помощь — всё на основе передовых технологий ИИ.',
+    startConsultation: 'Начать консультацию',
+    exploreArticles: 'Читать статьи',
+    aiAvailable: 'ИИ Доступен',
+    languages: 'Языки',
+    safePrivate: 'Безопасно',
+    freeToUse: 'Бесплатно',
+    
+    // Features
+    featureAiTitle: 'ИИ Медицинский Консультант',
+    featureAiDesc: 'Общайтесь с нашим ИИ-помощником на базе Gemini для получения мгновенных медицинских рекомендаций.',
+    featureSymptomTitle: 'Дневник симптомов',
+    featureSymptomDesc: 'Записывайте ежедневные симптомы, отслеживайте тяжесть и мониторьте здоровье со временем.',
+    featureFirstAidTitle: 'Справочник первой помощи',
+    featureFirstAidDesc: 'Пошаговые инструкции для СЛР, удушья, ожогов и других экстренных ситуаций.',
+    featureMedicineTitle: 'Аптечка',
+    featureMedicineDesc: 'Храните и управляйте лекарствами с отслеживанием сроков годности и уведомлениями.',
+    featureMapTitle: 'Найти помощь рядом',
+    featureMapDesc: 'Находите аптеки, больницы и клиники поблизости с подробной информацией.',
+    featureEducationTitle: 'Медицинское образование',
+    featureEducationDesc: 'Доступ к проверенным статьям о здоровье на русском и казахском языках.',
+    
+    // Why Choose Us
+    whyChooseTitle1: 'Создано с заботой',
+    whyChooseTitle2: 'о вашей безопасности',
+    whyChooseDesc: 'Мы понимаем, что медицинская информация конфиденциальна. Поэтому Disease Detector разработан с приоритетом безопасности, конфиденциальности и точности.',
+    privacyFirst: 'Конфиденциальность',
+    privacyFirstDesc: 'Ваши данные остаются на вашем устройстве',
+    instantInsights: 'Мгновенные ответы',
+    instantInsightsDesc: 'Получайте ответы ИИ за секунды',
+    expertReviewed: 'Проверено экспертами',
+    expertReviewedDesc: 'Контент проверен медицинскими специалистами',
+    
+    // CTA
+    ctaTitle: 'Готовы взять здоровье под контроль?',
+    ctaDesc: 'Присоединяйтесь к тысячам пользователей, которые доверяют Disease Detector. Это бесплатно, конфиденциально и всегда доступно.',
+    getStartedFree: 'Начать бесплатно',
+    
+    // Chat messages
+    aiGreeting: 'Здравствуйте! Я ваш ИИ-помощник по здоровью. Чем могу помочь?',
+    userHeadacheExample: 'У меня болит голова уже несколько дней...',
+    aiFollowUp: 'Понимаю. Позвольте задать несколько вопросов, чтобы лучше понять ваши симптомы...',
+    riskAssessment: 'Оценка риска',
+    suggestedActions: 'Рекомендуемые действия',
+    stayHydrated: 'Пейте больше воды',
+    restQuiet: 'Отдохните в тихом месте',
+    monitorSymptoms: 'Наблюдайте за симптомами',
+    
+    // Health Report
+    healthReport: 'Отчёт о здоровье',
+    generatedByAi: 'Сгенерировано ИИ',
+    initialAssessment: 'По вашим симптомам уровень риска представляется низким.',
+    tensionHeadache: 'Головная боль напряжения',
+    dehydration: 'Обезвоживание',
+    eyeStrain: 'Усталость глаз',
+    recommendedActions: 'Рекомендуемые действия',
+    drinkWater: 'Пейте 8 стаканов воды в день',
+    takeBreaks: 'Делайте перерывы от экранов',
+    considerPainRelief: 'Рассмотрите обезболивающее',
+    
+    // Email verification
+    checkEmailVerification: 'Пожалуйста, проверьте почту для подтверждения аккаунта.',
+    emailVerificationSent: 'Письмо для подтверждения отправлено',
   },
   
   kk: {
@@ -719,6 +1068,8 @@ export const translations: Record<Language, Translations> = {
     confirm: 'Растау',
     required: 'Міндетті',
     optional: 'Міндетті емес',
+    or: 'немесе',
+    learnMore: 'Толығырақ',
     
     // Auth
     email: 'Электрондық пошта',
@@ -731,6 +1082,46 @@ export const translations: Record<Language, Translations> = {
     forgotPassword: 'Құпия сөзді ұмыттыңыз ба?',
     welcomeBack: 'Қайта келгеніңізбен',
     createYourAccount: 'Аккаунтыңызды жасаңыз',
+    
+    // Role Selection
+    selectAccountType: 'Аккаунт түрін таңдаңыз',
+    registerAsUser: 'Пайдаланушы ретінде тіркелу',
+    registerAsDoctor: 'Дәрігер ретінде өтініш беру',
+    userAccountDesc: 'ЖИ-триаж, дәрі қорабы, денсаулық журналы, карта және форумға қол жеткізу',
+    doctorAccountDesc: 'Мақала жариялау, форумда жауап беру, клиникалық кабинет',
+    doctorVerificationRequired: 'Дәрігер верификациясы қажет',
+    
+    // Doctor Application
+    doctorApplication: 'Дәрігер өтінімі',
+    fullName: 'Толық аты-жөні',
+    specialization: 'Медициналық мамандық',
+    licenseNumber: 'Лицензия / біліктілік нөмірі',
+    uploadLicense: 'Лицензия құжатын жүктеу',
+    professionalBio: 'Кәсіби өмірбаян',
+    country: 'Ел',
+    region: 'Аймақ / Қала',
+    yearsOfExperience: 'Тәжірибе жылдары',
+    workplace: 'Қазіргі жұмыс орны',
+    applicationPending: 'Өтінім қаралуда',
+    applicationApproved: 'Өтінім мақұлданды',
+    applicationRejected: 'Өтінім қабылданбады',
+    applicationSubmitted: 'Өтінім сәтті жіберілді',
+    pendingVerification: 'Тексеруді күтуде',
+    verificationPendingDesc: 'Дәрігер өтінімі қаралуда. Мақұлданғаннан кейін хабарлама аласыз.',
+    
+    // Specializations
+    generalPractitioner: 'Жалпы практика дәрігері',
+    cardiologist: 'Кардиолог',
+    dermatologist: 'Дерматолог',
+    pediatrician: 'Педиатр',
+    neurologist: 'Невролог',
+    psychiatrist: 'Психиатр',
+    surgeon: 'Хирург',
+    gynecologist: 'Гинеколог',
+    urologist: 'Уролог',
+    endocrinologist: 'Эндокринолог',
+    ophthalmologist: 'Офтальмолог',
+    otherSpecialty: 'Басқа мамандық',
     
     // Roles
     user: 'Пайдаланушы',
@@ -879,6 +1270,9 @@ export const translations: Record<Language, Translations> = {
     aggregatedData: 'Жиынтық деректер',
     regionBreakdown: 'Аймақтық бөлу',
     trendingTopics: 'Трендтегі тақырыптар',
+    doctorApplications: 'Дәрігер өтінімдері',
+    approveDoctor: 'Дәрігерді мақұлдау',
+    rejectDoctor: 'Дәрігерді қабылдамау',
     
     // Privacy
     privacySettings: 'Құпиялылық параметрлері',
@@ -904,16 +1298,76 @@ export const translations: Record<Language, Translations> = {
     errorOccurred: 'Қате орын алды',
     tryAgain: 'Қайта байқап көріңіз',
     networkError: 'Желі қатесі. Байланысты тексеріңіз.',
-    unauthorized: 'Сізде бұл әрекетті орындауға құқық жоқ.',
+    unauthorized: 'Бұл әрекетке рұқсатыңыз жоқ.',
     notFound: 'Ресурс табылмады',
-    serverError: 'Сервер қатесі. Кейінірек қайталап көріңіз.',
+    serverError: 'Сервер қатесі. Кейінірек қайталаңыз.',
+    
+    // Home Page
+    heroTagline: 'ЖИ негізіндегі денсаулық көмекшісі',
+    heroTitle1: 'Сіздің Жеке',
+    heroTitle2: 'Денсаулық Көмекшіңіз',
+    heroDescription: 'Лезде денсаулық кеңестерін алыңыз, дәрілерді басқарыңыз және жақын көмек табыңыз — барлығы қауіпсіздікті ескере отырып жасалған ЖИ технологиясымен.',
+    startConsultation: 'Консультация бастау',
+    exploreArticles: 'Мақалаларды оқу',
+    aiAvailable: 'ЖИ қолжетімді',
+    languages: 'Тілдер',
+    safePrivate: 'Қауіпсіз',
+    freeToUse: 'Тегін',
+    
+    // Features
+    featureAiTitle: 'ЖИ Медициналық Кеңесші',
+    featureAiDesc: 'Gemini негізіндегі ЖИ көмекшімен сөйлесіп, лезде денсаулық кеңестерін алыңыз.',
+    featureSymptomTitle: 'Симптом журналы',
+    featureSymptomDesc: 'Күнделікті симптомдарды жазыңыз, ауырлық деңгейін бақылаңыз және денсаулықты мониторингтеңіз.',
+    featureFirstAidTitle: 'Алғашқы көмек нұсқаулығы',
+    featureFirstAidDesc: 'ЖТЖ, тұншығу, күйіктер және басқа төтенше жағдайлар үшін қадамдық нұсқаулар.',
+    featureMedicineTitle: 'Дәрі қорабы',
+    featureMedicineDesc: 'Дәрілерді сақтаңыз және жарамдылық мерзімін қадағалаңыз.',
+    featureMapTitle: 'Жақын көмек табу',
+    featureMapDesc: 'Жақындағы дәріханалар, ауруханалар және клиникаларды толық ақпаратпен табыңыз.',
+    featureEducationTitle: 'Медициналық білім',
+    featureEducationDesc: 'Қазақ және орыс тілдерінде сенімді денсаулық мақалаларына қол жеткізіңіз.',
+    
+    // Why Choose Us
+    whyChooseTitle1: 'Сіздің қауіпсіздігіңіз',
+    whyChooseTitle2: 'үшін жасалған',
+    whyChooseDesc: 'Біз медициналық ақпараттың құпия екенін түсінеміз. Сондықтан Disease Detector қауіпсіздік, құпиялылық және дәлдікті басымдық ретінде жасалған.',
+    privacyFirst: 'Құпиялылық',
+    privacyFirstDesc: 'Деректеріңіз құрылғыңызда қалады',
+    instantInsights: 'Лезде жауаптар',
+    instantInsightsDesc: 'ЖИ жауаптарын секундтарда алыңыз',
+    expertReviewed: 'Сарапшылар тексерген',
+    expertReviewedDesc: 'Мазмұн медицина мамандарымен тексерілген',
+    
+    // CTA
+    ctaTitle: 'Денсаулықты бақылауға дайынсыз ба?',
+    ctaDesc: 'Disease Detector-ға сенетін мыңдаған пайдаланушыларға қосылыңыз. Тегін, құпия және әрқашан қолжетімді.',
+    getStartedFree: 'Тегін бастау',
+    
+    // Chat messages
+    aiGreeting: 'Сәлеметсіз бе! Мен сіздің ЖИ денсаулық көмекшіңізмін. Қалай көмектесе аламын?',
+    userHeadacheExample: 'Бірнеше күннен бері басым ауырып жүр...',
+    aiFollowUp: 'Түсінемін. Симптомдарыңызды жақсырақ түсіну үшін бірнеше сұрақ қоюға рұқсат етіңіз...',
+    riskAssessment: 'Тәуекелді бағалау',
+    suggestedActions: 'Ұсынылатын әрекеттер',
+    stayHydrated: 'Көбірек су ішіңіз',
+    restQuiet: 'Тыныш жерде демалыңыз',
+    monitorSymptoms: 'Симптомдарды бақылаңыз',
+    
+    // Health Report
+    healthReport: 'Денсаулық есебі',
+    generatedByAi: 'ЖИ жасаған',
+    initialAssessment: 'Симптомдарыңыз бойынша тәуекел деңгейі төмен көрінеді.',
+    tensionHeadache: 'Шиеленіс бас ауруы',
+    dehydration: 'Сусыздану',
+    eyeStrain: 'Көз шаршауы',
+    recommendedActions: 'Ұсынылатын әрекеттер',
+    drinkWater: 'Күніне 8 стакан су ішіңіз',
+    takeBreaks: 'Экраннан үзіліс жасаңыз',
+    considerPainRelief: 'Ауырсынуды басатын дәрі қолданыңыз',
+    
+    // Email verification
+    checkEmailVerification: 'Аккаунтты растау үшін поштаңызды тексеріңіз.',
+    emailVerificationSent: 'Растау хаты жіберілді',
   },
-};
-
-export const getTranslation = (lang: Language) => translations[lang];
-
-export const languageNames: Record<Language, string> = {
-  en: 'English',
-  ru: 'Русский',
-  kk: 'Қазақша',
 };
