@@ -6,8 +6,6 @@ import {
   Bot, 
   Send, 
   Image as ImageIcon, 
-  Mic, 
-  MicOff,
   Loader2,
   User,
   AlertTriangle,
@@ -21,7 +19,9 @@ import {
 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { DisclaimerBanner } from "@/components/layout/DisclaimerBanner";
+import { VoiceInputButton } from "@/components/chat/VoiceInputButton";
 import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "react-router-dom";
 
 interface AIReport {
@@ -41,17 +41,21 @@ interface Message {
 }
 
 export default function AIConsultant() {
+  const { t, language } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
       role: "assistant",
-      content: "Hello! I'm your AI health assistant powered by advanced AI. I'm here to help you understand your symptoms and provide general health information. You can type your symptoms, upload an image, or use voice input. How can I assist you today?",
+      content: language === 'ru' 
+        ? "Здравствуйте! Я ваш ИИ-помощник по здоровью на базе продвинутого ИИ. Я помогу вам понять ваши симптомы и предоставлю общую информацию о здоровье. Вы можете ввести симптомы, загрузить изображение или использовать голосовой ввод. Чем могу помочь?"
+        : language === 'kk'
+        ? "Сәлеметсіз бе! Мен сіздің ЖИ денсаулық көмекшіңізбін. Мен симптомдарыңызды түсінуге және жалпы денсаулық туралы ақпарат беруге көмектесемін. Симптомдарды жаза аласыз, сурет жүктей аласыз немесе дауыспен енгізуді қолдана аласыз. Сізге қалай көмектесе аламын?"
+        : "Hello! I'm your AI health assistant powered by advanced AI. I'm here to help you understand your symptoms and provide general health information. You can type your symptoms, upload an image, or use voice input. How can I assist you today?",
       timestamp: new Date(),
     }
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -101,6 +105,7 @@ export default function AIConsultant() {
         body: {
           messages: messageHistory,
           image: currentImage,
+          language,
         },
       });
 
@@ -111,7 +116,7 @@ export default function AIConsultant() {
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: data.response || data.error || "I apologize, but I couldn't process your request. Please try again.",
+        content: data.response || data.error || t.error,
         timestamp: new Date(),
         report: data.report,
       };
@@ -122,7 +127,7 @@ export default function AIConsultant() {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "I apologize, but I'm having trouble processing your request right now. Please try again in a moment.",
+        content: t.error,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -142,15 +147,8 @@ export default function AIConsultant() {
     }
   };
 
-  const toggleRecording = () => {
-    setIsRecording(!isRecording);
-    if (!isRecording) {
-      // Simulate voice recording
-      setTimeout(() => {
-        setInput("I've been feeling tired and having headaches for the past few days.");
-        setIsRecording(false);
-      }, 2000);
-    }
+  const handleVoiceTranscript = (text: string) => {
+    setInput((prev) => prev + (prev ? ' ' : '') + text);
   };
 
   const getRiskColor = (risk: string) => {
@@ -159,6 +157,15 @@ export default function AIConsultant() {
       case "medium": return "bg-warning/10 text-warning border-warning/20";
       case "high": return "bg-destructive/10 text-destructive border-destructive/20";
       default: return "bg-muted text-muted-foreground";
+    }
+  };
+
+  const getRiskLabel = (risk: string) => {
+    switch (risk) {
+      case "low": return t.lowRisk;
+      case "medium": return t.mediumRisk;
+      case "high": return t.highRisk;
+      default: return risk;
     }
   };
 
@@ -176,7 +183,7 @@ export default function AIConsultant() {
                   <Bot className="w-6 h-6 text-primary-foreground" />
                 </div>
                 <div>
-                  <h1 className="font-display text-xl font-semibold">AI Health Consultant</h1>
+                  <h1 className="font-display text-xl font-semibold">{t.aiConsultant}</h1>
                   <p className="text-sm text-muted-foreground">Powered by Gemini AI</p>
                 </div>
               </div>
@@ -238,8 +245,8 @@ export default function AIConsultant() {
                         {/* Risk Level */}
                         <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border ${getRiskColor(message.report.riskLevel)}`}>
                           <Shield className="w-4 h-4" />
-                          <span className="text-sm font-medium capitalize">
-                            {message.report.riskLevel} Risk Level
+                          <span className="text-sm font-medium">
+                            {getRiskLabel(message.report.riskLevel)}
                           </span>
                         </div>
 
@@ -247,7 +254,7 @@ export default function AIConsultant() {
                         <div>
                           <div className="flex items-center gap-2 mb-2">
                             <Stethoscope className="w-4 h-4 text-primary" />
-                            <span className="text-sm font-medium">Possible Conditions</span>
+                            <span className="text-sm font-medium">{t.possibleConditions}</span>
                           </div>
                           <div className="flex flex-wrap gap-2">
                             {message.report.possibleConditions.map((condition, i) => (
@@ -262,7 +269,7 @@ export default function AIConsultant() {
                         <div>
                           <div className="flex items-center gap-2 mb-2">
                             <Activity className="w-4 h-4 text-accent" />
-                            <span className="text-sm font-medium">Recommended Actions</span>
+                            <span className="text-sm font-medium">{t.recommendations}</span>
                           </div>
                           <ul className="space-y-1">
                             {message.report.recommendations.map((rec, i) => (
@@ -278,7 +285,7 @@ export default function AIConsultant() {
                         <div className="bg-warning/10 border border-warning/20 rounded-lg p-3">
                           <div className="flex items-center gap-2 mb-1">
                             <AlertTriangle className="w-4 h-4 text-warning" />
-                            <span className="text-sm font-medium text-warning">When to See a Doctor</span>
+                            <span className="text-sm font-medium text-warning">{t.whenToSeeDoctor}</span>
                           </div>
                           <p className="text-xs text-muted-foreground">{message.report.whenToSeeDoctor}</p>
                         </div>
@@ -288,7 +295,7 @@ export default function AIConsultant() {
                           <Link to="/map">
                             <Button variant="outline" size="sm" className="w-full gap-2">
                               <MapPin className="w-4 h-4" />
-                              Find Nearby Medical Facilities
+                              {t.findCare}
                             </Button>
                           </Link>
                         )}
@@ -322,7 +329,7 @@ export default function AIConsultant() {
                 <div className="bg-muted rounded-2xl rounded-tl-none p-4">
                   <div className="flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                    <span className="text-sm text-muted-foreground">Analyzing your symptoms...</span>
+                    <span className="text-sm text-muted-foreground">{t.analyzing}</span>
                   </div>
                 </div>
               </motion.div>
@@ -361,22 +368,19 @@ export default function AIConsultant() {
                 size="icon"
                 onClick={() => fileInputRef.current?.click()}
                 className="flex-shrink-0"
+                title={t.uploadImage}
               >
                 <ImageIcon className="w-4 h-4" />
               </Button>
-              <Button
-                variant={isRecording ? "destructive" : "outline"}
-                size="icon"
-                onClick={toggleRecording}
-                className="flex-shrink-0"
-              >
-                {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-              </Button>
+              <VoiceInputButton 
+                onTranscript={handleVoiceTranscript}
+                disabled={isLoading}
+              />
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
-                placeholder="Describe your symptoms..."
+                placeholder={t.typeSymptoms}
                 className="flex-1"
                 disabled={isLoading}
               />
@@ -392,9 +396,6 @@ export default function AIConsultant() {
                 )}
               </Button>
             </div>
-            <p className="text-xs text-muted-foreground text-center mt-2">
-              Press Enter to send • Upload images or use voice for hands-free input
-            </p>
           </div>
         </div>
       </main>
