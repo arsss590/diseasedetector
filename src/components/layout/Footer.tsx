@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { Activity, Heart, Mail, Phone, MapPin } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function Footer() {
+  const { t } = useLanguage();
+  
   return (
     <footer className="bg-foreground text-background/80">
       <div className="container mx-auto px-4 py-12">
@@ -17,33 +20,34 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-sm text-background/60 leading-relaxed">
-              AI-powered health assistant helping you understand symptoms, 
-              manage medications, and find nearby care.
+              {t.disclaimerText}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-display font-semibold text-background mb-4">Quick Links</h4>
+            <h4 className="font-display font-semibold text-background mb-4">
+              {t.home}
+            </h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link to="/consultant" className="text-background/60 hover:text-primary transition-colors">
-                  AI Consultant
+                  {t.aiConsultant}
                 </Link>
               </li>
               <li>
                 <Link to="/cabinet" className="text-background/60 hover:text-primary transition-colors">
-                  Medicine Cabinet
+                  {t.medicineCabinet}
                 </Link>
               </li>
               <li>
                 <Link to="/map" className="text-background/60 hover:text-primary transition-colors">
-                  Find Care
+                  {t.findCare}
                 </Link>
               </li>
               <li>
                 <Link to="/articles" className="text-background/60 hover:text-primary transition-colors">
-                  Health Articles
+                  {t.articles}
                 </Link>
               </li>
             </ul>
@@ -51,27 +55,29 @@ export function Footer() {
 
           {/* Resources */}
           <div>
-            <h4 className="font-display font-semibold text-background mb-4">Resources</h4>
+            <h4 className="font-display font-semibold text-background mb-4">
+              {t.about}
+            </h4>
             <ul className="space-y-2 text-sm">
               <li>
+                <Link to="/first-aid" className="text-background/60 hover:text-primary transition-colors">
+                  {t.firstAid}
+                </Link>
+              </li>
+              <li>
+                <Link to="/symptom-tracker" className="text-background/60 hover:text-primary transition-colors">
+                  {t.symptomTracker}
+                </Link>
+              </li>
+              <li>
                 <Link to="/about" className="text-background/60 hover:text-primary transition-colors">
-                  About Us
+                  {t.about}
                 </Link>
               </li>
               <li>
-                <Link to="/about#disclaimer" className="text-background/60 hover:text-primary transition-colors">
-                  Medical Disclaimer
-                </Link>
-              </li>
-              <li>
-                <a href="#" className="text-background/60 hover:text-primary transition-colors">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-background/60 hover:text-primary transition-colors">
-                  Terms of Service
-                </a>
+                <span className="text-background/60">
+                  {t.medicalDisclaimer}
+                </span>
               </li>
             </ul>
           </div>

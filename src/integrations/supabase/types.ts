@@ -65,6 +65,78 @@ export type Database = {
         }
         Relationships: []
       }
+      medicines: {
+        Row: {
+          created_at: string
+          dosage: string | null
+          expiration_date: string
+          form_type: string | null
+          id: string
+          name: string
+          notes: string | null
+          purpose: string | null
+          quantity: number | null
+          tags: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          dosage?: string | null
+          expiration_date: string
+          form_type?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          purpose?: string | null
+          quantity?: number | null
+          tags?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          dosage?: string | null
+          expiration_date?: string
+          form_type?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          purpose?: string | null
+          quantity?: number | null
+          tags?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+          language: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          language?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          language?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       symptom_logs: {
         Row: {
           created_at: string
